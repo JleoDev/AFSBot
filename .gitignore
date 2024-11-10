@@ -113,9 +113,12 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-#session files
+# session files
 sessions/
 *.session
 *.session-journal
 .env
 test.py
+
+# development environment
+.vscode/
