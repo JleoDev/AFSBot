@@ -1,78 +1,104 @@
-<hr>
+> [!NOTE]  
+> [Click here for the Portuguese version.](https://github.com/JleoDev/AFSBot/blob/main/README_PTBR.md)
 
-> [!WARNING]
-> This project is being rewritten to [golang](https://github.com/EverythingSuckz/TG-FileStreamBot/tree/golang).
-<hr>
-<h1 align="center">Telegram File Stream Bot</h1>
-<p align="center">
-  <a href="https://github.com/EverythingSuckz/TG-FileStreamBot">
-    <img src="https://socialify.git.ci/EverythingSuckz/TG-FileStreamBot/image?description=1&font=Source%20Code%20Pro&forks=1&issues=1&logo=https://telegra.ph/file/01385a9f4cf0419682b87.png&pattern=Circuit%20Board&pulls=1&stargazers=1&theme=Dark" alt="Cover Image" width="650">
-  </a>
-  <p align="center">
-    A Telegram bot to <b>generate direct link</b> for your Telegram files.
-    <br />
-    <a href="https://telegram.dog/TG_FileStreamBot"><strong><s>Demo Bot »</s></strong></a>
-    <br />
-    <a href="https://github.com/EverythingSuckz/TG-FileStreamBot/issues">Report a Bug</a>
-    |
-    <a href="https://github.com/EverythingSuckz/TG-FileStreamBot/issues">Request Feature</a>
-  </p>
-</p>
+<h1 align="center">Advanced File Stream Bot (AFSBot)</h1>  
+AFSBot is a continuation of the project <a href='https://github.com/EverythingSuckz/TG-FileStreamBot/tree/python'>TG-FileStreamBot</a>, specifically the Python version by user <a href='https://github.com/EverythingSuckz'>EverythingSuckz</a>, where I will modify and add functions to the bot while maintaining its core purpose of creating streaming links for files.
 
-<hr>
+## How to Set Up
 
-<details open="open">
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#about-this-bot">About this Bot</a>
-      <ul>
-        <li><a href="#original-repository">Original Repository</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#how-to-make-your-own">How to make your own</a>
-      <ul>
-        <li><a href="#host-it-on-vps-or-locally">Run it in a VPS / local</a></li>
-        <li><a href="#deploy-using-docker">Deploy using Docker</a></li>
-      </ul>
-    </li>
-    <li><a href="#setting-up-things">Setting up things</a></li>
-    <ul>
-      <li><a href="#mandatory-vars">Mandatory Vars</a></li>
-      <li><a href="#optional-vars">Optional Vars</a></li>
-    </ul>
-    <li><a href="#how-to-use-the-bot">How to use the bot</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#contact-me">Contact me</a></li>
-    <li><a href="#credits">Credits</a></li>
-  </ol>
+<details open="open">  
+	<summary><h3>Environment Variables</h3></summary>  
+
+Create an <em>.env</em> file like the example below:
+
+```
+API_ID=452525
+API_HASH=esx576f8738x883f3sfzx83
+BOT_TOKEN=55838383:yourtbottokenhere
+BIN_CHANNEL=-100
+```
+
+<details>  
+	<summary><h4>Required</h4></summary>  
+
+For the bot to work, it requires at least these four variables:
+
+- `API_ID`: This is the Telegram API ID linked to your account. Note: This ID can be obtained by accessing <a href='https://my.telegram.org/auth'>https://my.telegram.org/auth</a>
+
+- `API_HASH`: This is the Telegram API hash linked to your account. Note: This hash can be obtained by accessing <a href='https://my.telegram.org/auth'>https://my.telegram.org/auth</a>
+
+- `BOT_TOKEN`: This is the token for your bot. Note: This token can be obtained by chatting with <a href='https://t.me/BotFather'>@BotFather</a>
+
+- `BIN_CHANNEL`: This is the ID of the channel or group that will be used to store messages with files that the bot receives. Note: This ID can be obtained by forwarding a message from the channel to <a href='https://t.me/MissRose_bot'>@missrose_bot</a> and then replying to the message with the command /id.
+
+> **Warning**  
+> Don't forget to add the bot to `BIN_CHANNEL` for proper functioning.
+
 </details>
 
-## About This Bot
+<details>  
+	<summary><h4>Optional</h4></summary>  
 
-<p align="center">
-    <a herf="https://github.com/EverythingSuckz/TG-FileStreamBot">
-        <img src="https://telegra.ph/file/a8bb3f6b334ad1200ddb4.png" height="100" width="100" alt="Telegram Logo">
-    </a>
-</p>
-<p align='center'>
-    This bot will give you stream links for Telegram files without the need of waiting till the download completes
-</p>
+- `ALLOWED_USERS`: These are the Telegram user IDs to which the bot should respond.
 
-### Original Repository
+> **Note**  
+> Leave this field empty to allow anyone to use the bot. Note: You can also add multiple users by separating their IDs with a comma (,).
 
-The main working part was taken from [Megatron](https://github.com/eyaadh/megadlbot_oss) and thanks to [eyaadh](https://github.com/eyaadh) for his awesome project.
+- `HASH_LENGTH`: This is the custom length for generated URL hashes. The hash length must be greater than 5 and less than 64.
 
-## How to make your own
+- `SLEEP_THRESHOLD`: Sets the wait limit for flood wait exceptions that occur globally on the bot instance. Requests that generate flood wait exceptions below this limit will automatically retry after the required wait time. Exceptions requiring longer wait times will be displayed in the terminal. The default value is 60 seconds. It is recommended to leave this field empty.
 
-Either you could locally host or deploy on ~~[Heroku](https://heroku.com)~~ Free tier is dead.
+- `WORKERS`: Sets the maximum number of concurrent workers to handle received updates. The default value is 3.
 
-### Host it on VPS or Locally
+- `PORT`: Sets the port your web application will receive requests on. The default is 8080.
 
-```sh
-git clone https://github.com/EverythingSuckz/TG-FileStreamBot
-cd TG-FileStreamBot
+- `WEB_SERVER_BIND_ADDRESS`: Sets the server bind address. The default is 0.0.0.0.
+
+- `NO_PORT`: Can be `True` or `False`. If set to `True`, the port will not be displayed.
+> **Note**  
+> To use this setting, set `PORT` to 80 for HTTP protocol or 443 for HTTPS protocol for the generated links to work.
+
+- `FQDN`: A Fully Qualified Domain Name, if present. The default is `WEB_SERVER_BIND_ADDRESS`.
+
+- `HAS_SSL`: Can be `True` or `False`. If set to `True`, the generated links will be in HTTPS format.
+
+- `KEEP_ALIVE`: If you want the server to ping itself automatically every `PING_INTERVAL` seconds to prevent inactivity. Useful in free PaaS tiers. The default is `False`.
+
+- `PING_INTERVAL`: The time in ms for the server to ping itself each time to prevent inactivity (if on a PaaS). The default is `1200`, or 20 minutes.
+
+- `USE_SESSION_FILE`: Uses session files for clients, rather than storing the Pyrogram SQLite database in memory.
+
+</details>
+
+<details>  
+	<summary><h5>Multi-Client Support</h5></summary>  
+
+> **Note**  
+> What is the multi-client feature and what does it do? <br>  
+> This feature shares Telegram API requests between other bots to avoid flood wait (a type of rate limiting applied by Telegram to prevent server overload) and to enable the server to handle more requests. <br>  
+
+To enable multi-client, generate new bot tokens and add them as environment variables with the following key names.
+
+`MULTI_TOKEN1`: Add your first bot token here.  
+
+`MULTI_TOKEN2`: Add your second bot token here.  
+
+You may also add as many bots as you like. (The maximum limit has not yet been tested)  
+`MULTI_TOKEN3`, `MULTI_TOKEN4`, etc.
+
+> **Warning**  
+> Don't forget to add all these bots to `BIN_CHANNEL` for proper functioning.
+
+</details>
+
+</details>
+
+<details>  
+	<summary><h3>Host it on VPS or Locally</h3></summary>  
+
+```
+git clone https://github.com/JleoDev/AFSBot.git
+cd AFSBot
 python3 -m venv ./venv
 . ./venv/bin/activate
 pip3 install -r requirements.txt
@@ -82,179 +108,36 @@ python3 -m WebStreamer
 and to stop the whole bot,
  do <kbd>CTRL</kbd>+<kbd>C</kbd>
 
-> **If you wanna run this bot 24/7 on the VPS, follow thesesteps.**
-> ```sh
-> sudo apt install tmux -y
-> tmux
-> python3 -m WebStreamer
-> ```
-> now you can close the VPS and the bot will run on it.
+</details>
 
-### Deploy using Docker
-First clone the repository
-```sh
-git clone https://github.com/EverythingSuckz/TG-FileStreamBot
-cd TG-FileStreamBot
-```
-then build the docker image
-```sh
-docker build . -t stream-bot
-```
-now create the `.env` file with your variables. and start your container:
-```sh
-docker run -d --restart unless-stopped --name fsb \
--v /PATH/TO/.env:/app/.env \
--p 8000:8000 \
-stream-bot
-```
+## How to Use the Bot  
 
-your `PORT` variable has to be consistent with the container's exposed port since it's used for URL generation. so remember if you changed the `PORT` variable your docker run command changes too. (example: `PORT=9000` -> `-p 9000:9000`)
+> **Warning**  
+> Before using the bot, don't forget to add all bots (including multi-client) as admins in `BIN_CHANNEL`.
 
-if you need to change the variables in `.env` file after your bot was already started, all you need to do is restart the container for the bot settings to get updated:
-```sh
-docker restart fsb
-```
+`/start`: To check if the bot is active.
 
-### Deploy using docker-compose
-First install docker-compose. For debian based, run 
-```sh
-sudo apt install docker-compose -y
-```
-Afterwards, clone the repository
-```sh
-git clone https://github.com/EverythingSuckz/TG-FileStreamBot
-cd TG-FileStreamBot
-```
-No need to create .env file, just edit the variables in the docker-compose.yml
+To get an instant streaming link, simply forward any media to the bot, and it will instantly reply with a direct link to that media message on Telegram.
 
-Now run the compose file
-```sh
-sudo docker compose up -d
-```
+## Contribution  
 
-## Setting up things
+Feel free to contribute to this project if you have more ideas. You can create an issue to inform what you want or what you are modifying.
 
-If you're locally hosting, create a file named `.env` in the root directory and add all the variables there.
-An example of `.env` file:
+## Credits  
 
-```sh
-API_ID=452525
-API_HASH=esx576f8738x883f3sfzx83
-BOT_TOKEN=55838383:yourtbottokenhere
-MULTI_TOKEN1=55838383:yourfirstmulticlientbottokenhere
-MULTI_TOKEN2=55838383:yoursecondmulticlientbottokenhere
-MULTI_TOKEN3=55838383:yourthirdmulticlientbottokenhere
-BIN_CHANNEL=-100
-PORT=8080
-FQDN=yourserverip
-HAS_SSL=False
-```
-
-### Mandatory Vars
-Before running the bot, you will need to set up the following mandatory variables:
-
-- `API_ID` : This is the API ID for your Telegram account, which can be obtained from my.telegram.org.
-
-- `API_HASH` : This is the API hash for your Telegram account, which can also be obtained from my.telegram.org.
-
-- `BOT_TOKEN` : This is the bot token for the Telegram Media Streamer Bot, which can be obtained from [@BotFather](https://telegram.dog/BotFather).
-
-- `BIN_CHANNEL` :  This is the channel ID for the log channel where the bot will forward media messages and store these files to make the generated direct links work. To obtain a channel ID, create a new telegram channel (public or private), post something in the channel, forward the message to [@missrose_bot](https://telegram.dog/MissRose_bot) and **reply the forwarded message** with the /id command. Copy the forwarded channel ID and paste it into the this field.
-
-### Optional Vars
-In addition to the mandatory variables, you can also set the following optional variables:
-
-- `ALLOWED_USERS`: The user Telegram IDs of users to which the bot only reply to.
-> **Note**
-> Leave this field empty and anyone will be able to use your bot instance.
-> You may also add multiple users by adding the IDs separated by comma (,)
-
-- `HASH_LENGTH` : This is the custom hash length for generated URLs. The hash length must be greater than 5 and less than 64.
-
-
-- `SLEEP_THRESHOLD` : This sets the sleep threshold for flood wait exceptions that occur globally in the bot instance. Requests that raise flood wait exceptions below this threshold will be automatically invoked again after sleeping for the required amount of time. Flood wait exceptions requiring longer waiting times will be raised. The default value is 60 seconds. Better leave this field empty.
-
-
-- `WORKERS` : This sets the maximum number of concurrent workers for handling incoming updates. The default value is 3.
-
-
-- `PORT` : This sets the port that your webapp will listen to. The default value is 8080.
-
-
-- `WEB_SERVER_BIND_ADDRESS` : This sets your server bind address. The default value is 0.0.0.0.
-
-- `NO_PORT` : This can be either True or False. If set to True, the port will not be displayed.
-> **Note**
-> To use this setting, you must point your `PORT` to 80 for HTTP protocol or to 443 for HTTPS protocol to make the generated links work.
-
-- `FQDN` :  A Fully Qualified Domain Name if present. Defaults to `WEB_SERVER_BIND_ADDRESS`
-
-- `HAS_SSL` : This can be either True or False. If set to True, the generated links will be in HTTPS format.
-
-- `KEEP_ALIVE`: If you want to make the server ping itself every `PING_INTERVAL` seconds to avoid sleeping. Helpful in PaaS Free tiers. Defaults to `False`
-
-- `PING_INTERVAL` : The time in ms you want the servers to be pinged each time to avoid sleeping (If you're on some PaaS). Defaults to `1200` or 20 minutes.
-
-- `USE_SESSION_FILE` : Use session files for client(s) rather than storing the pyrogram sqlite database in the memory
-
-### For making use of Multi-Client support
-
-> **Note**
-> What it multi-client feature and what it does? <br>
-> This feature shares the Telegram API requests between other bots to avoid getting floodwaited (A kind of rate limiting that Telegram does in the backend to avoid flooding their servers) and to make the server handle more requests. <br>
-
-To enable multi-client, generate new bot tokens and add it as your environmental variables with the following key names. 
-
-`MULTI_TOKEN1`: Add your first bot token here.
-
-`MULTI_TOKEN2`: Add your second bot token here.
-
-you may also add as many as bots you want. (max limit is not tested yet)
-`MULTI_TOKEN3`, `MULTI_TOKEN4`, etc.
-
-> **Warning**
-> Don't forget to add all these bots to the `BIN_CHANNEL` for the proper functioning
-
-## How to use the bot
-
-> **Warning**
-> Before using the  bot, don't forget to add all the bots (multi-client ones too) to the `BIN_CHANNEL` as an admin
- 
-`/start` : To check if the bot is alive or not.
-
-To get an instant stream link, just forward any media to the bot and boom, the bot instantly replies a direct link to that Telegram media message.
-
-## FAQ
-
-- How long the links will remain valid or is there any expiration time for the links generated by the bot?
-> The links will will be valid as longs as your bot is alive and you haven't deleted the log channel.
-
-## Contributing
-
-Feel free to contribute to this project if you have any further ideas
-
-## Contact me
-
-[![Telegram Channel](https://img.shields.io/static/v1?label=Join&message=Telegram%20Channel&color=blueviolet&style=for-the-badge&logo=telegram&logoColor=violet)](https://xn--r1a.click/wrench_labs)
-[![Telegram Group](https://img.shields.io/static/v1?label=Join&message=Telegram%20Group&color=blueviolet&style=for-the-badge&logo=telegram&logoColor=violet)](https://xn--r1a.click/AlteredVoid)
-
-You can contact either via my [Telegram Group](https://xn--r1a.click/AlteredVoid) ~~or you can PM me on [@EverythingSuckz](https://xn--r1a.click/EverythingSuckz)~~
-
-
-## Credits
-
-- Me
-- [eyaadh](https://github.com/eyaadh) for his awesome [Megatron Bot](https://github.com/eyaadh/megadlbot_oss).
-- [BlackStone](https://github.com/eyMarv) for adding multi-client support.
-- [Dan Tès](https://telegram.dog/haskell) for his [Pyrogram Library](https://github.com/pyrogram/pyrogram)
+- [Me](https://github.com/JleoDev) as the organizer of AFSBot.  
+- [EverythingSuckz](https://github.com/EverythingSuckz) for the [base code](https://github.com/EverythingSuckz/TG-FileStreamBot/tree/python) for the current project.  
+- [BlackStone](https://github.com/eyMarv) for adding multi-client support to the [base code](https://github.com/EverythingSuckz/TG-FileStreamBot/tree/python) for the current project.  
 - [TheHamkerCat](https://github.com/TheHamkerCat)
+- [Dan](https://github.com/delivrance) for the libraries [pyrogram](https://github.com/pyrogram/pyrogram) and [tgcrypto](https://github.com/pyrogram/tgcrypto)
+- [Saurabh Kumar](https://github.com/theskumar) for the library [python-dotenv](https://github.com/theskumar/python-dotenv)
+- [aio-libs](https://github.com/aio-libs) by library [aiohttp](https://github.com/aio-libs/aiohttp)
 
-## Copyright
+> **Note**  
+> A copy of the licenses for the codes used in this project can also be found in the licenses folder of this repository.
 
-Copyright (C) 2023 [EverythingSuckz](https://github.com/EverythingSuckz) under [GNU Affero General Public License](https://www.gnu.org/licenses/agpl-3.0.en.html).
+## License  
 
-TG-FileStreamBot is Free Software: You can use, study share and improve it at your
-will. Specifically you can redistribute and/or modify it under the terms of the
-[GNU Affero General Public License](https://www.gnu.org/licenses/agpl-3.0.en.html) as
-published by the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version. 
+Copyright (C) 2024 [JleoDev](https://github.com/JleoDev) under the [GNU Affero General Public License](https://www.gnu.org/licenses/agpl-3.0.en.html).
+
+AFSBot is Free Software: you can use, study, share, and improve it at your will. Specifically, you can redistribute and/or modify it under the terms of the [GNU Affero General Public License](https://www.gnu.org/licenses/agpl-3.0.en.html), as published by the Free Software Foundation, either version 3 of the License or (at your option) any later version.
